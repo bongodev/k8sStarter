@@ -62,6 +62,7 @@ Now, logout (use `exit` command) and connect again.
 First, download the Minikube binary using `curl`:
 
 ```bash
+curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
 ```
 
 Make it executable and move it into your path:
@@ -147,4 +148,3 @@ minikube delete
 ---
 
 Cheers!
-```
