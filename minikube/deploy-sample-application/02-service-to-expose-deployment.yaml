@@ -7,7 +7,7 @@ metadata:
   labels:
     app: sample-app
 spec:
-  type: ClusterIP
+  type: NodePort
   selector:
     app: sample-app
   ports:
