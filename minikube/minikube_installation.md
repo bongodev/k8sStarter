@@ -49,11 +49,12 @@ Add current user to docker group (To use docker without root)
 ```bash
 sudo usermod -aG docker $USER && newgrp docker
 ```
+Now, logout from the machine and connect again.
+
 Alternatively (without sudo reboot):
 ```bash
 sudo chown $USER /var/run/docker.sock
 ```
-Now, logout (use `exit` command) and connect again.
 
 ---
 
@@ -72,6 +73,10 @@ chmod +x minikube
 sudo mv minikube /usr/local/bin/
 ```
 
+Check minikube version
+```bash
+minikube version
+```
 
 ---
 
