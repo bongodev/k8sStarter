@@ -47,7 +47,7 @@ sudo systemctl enable --now docker
 Add current user to docker group (To use docker without root)
 
 ```bash
-sudo usermod -aG docker $USER && newgrp docker
+sudo usermod -aG docker $USER
 ```
 Now, logout from the machine and connect again.
 
