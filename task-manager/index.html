@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>bongoDev Task Manager</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 500px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: #4e73df;
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+        
+        .header p {
+            opacity: 0.8;
+        }
+        
+        .input-container {
+            padding: 20px;
+            display: flex;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .input-container input {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px 0 0 8px;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .input-container input:focus {
+            border-color: #4e73df;
+        }
+        
+        .input-container button {
+            padding: 15px 20px;
+            background: #4e73df;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+        
+        .input-container button:hover {
+            background: #3a56c4;
+        }
+        
+        .tasks-container {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .task {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            border-bottom: 1px solid #f1f1f1;
+            animation: fadeIn 0.5s;
+        }
+        
+        .task:last-child {
+            border-bottom: none;
+        }
+        
+        .task.completed {
+            background: #f9f9f9;
+        }
+        
+        .task.completed .task-text {
+            text-decoration: line-through;
+            color: #888;
+        }
+        
+        .task-checkbox {
+            margin-right: 15px;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+        
+        .task-text {
+            flex: 1;
+            font-size: 16px;
+            word-break: break-word;
+        }
+        
+        .task-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .task-actions button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            color: #888;
+            transition: color 0.3s;
+        }
+        
+        .task-actions button.edit-btn:hover {
+            color: #4e73df;
+        }
+        
+        .task-actions button.delete-btn:hover {
+            color: #e74a3b;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 30px;
+            color: #888;
+        }
+        
+        .empty-state i {
+            font-size: 50px;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+        
+        .empty-state p {
+            font-size: 18px;
+        }
+        
+        .stats {
+            padding: 15px 20px;
+            background: #f8f9fc;
+            display: flex;
+            justify-content: space-between;
+            border-top: 1px solid #eee;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                border-radius: 10px;
+            }
+            
+            .header {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 24px;
+            }
+            
+            .input-container {
+                flex-direction: column;
+            }
+            
+            .input-container input {
+                border-radius: 8px;
+                margin-bottom: 10px;
+            }
+            
+            .input-container button {
+                border-radius: 8px;
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-tasks"></i> Task Manager</h1>
+            <p>Organize your daily tasks efficiently</p>
+        </div>
+        
+        <div class="input-container">
+            <input type="text" id="taskInput" placeholder="Enter a new task...">
+            <button id="addTaskBtn"><i class="fas fa-plus"></i> Add Task</button>
+        </div>
+        
+        <div class="tasks-container" id="tasksContainer">
+            <!-- Tasks will be added here dynamically -->
+            <div class="empty-state">
+                <i class="fas fa-clipboard-list"></i>
+                <p>No tasks yet. Add a task to get started!</p>
+            </div>
+        </div>
+        
+        <div class="stats">
+            <span id="totalTasks">Total tasks: 0</span>
+            <span id="completedTasks">Completed: 0</span>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const taskInput = document.getElementById('taskInput');
+            const addTaskBtn = document.getElementById('addTaskBtn');
+            const tasksContainer = document.getElementById('tasksContainer');
+            const totalTasksSpan = document.getElementById('totalTasks');
+            const completedTasksSpan = document.getElementById('completedTasks');
+            
+            let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+            let taskId = tasks.length > 0 ? Math.max(...tasks.map(task => task.id)) + 1 : 1;
+            
+            // Render tasks on page load
+            renderTasks();
+            updateStats();
+            
+            // Add task when button is clicked
+            addTaskBtn.addEventListener('click', addTask);
+            
+            // Add task when Enter key is pressed
+            taskInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    addTask();
+                }
+            });
+            
+            function addTask() {
+                const taskText = taskInput.value.trim();
+                
+                if (taskText === '') {
+                    alert('Please enter a task!');
+                    return;
+                }
+                
+                const task = {
+                    id: taskId++,
+                    text: taskText,
+                    completed: false,
+                    timestamp: new Date().toISOString()
+                };
+                
+                tasks.push(task);
+                saveTasks();
+                renderTasks();
+                updateStats();
+                
+                // Clear input and focus
+                taskInput.value = '';
+                taskInput.focus();
+            }
+            
+            function renderTasks() {
+                if (tasks.length === 0) {
+                    tasksContainer.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-clipboard-list"></i>
+                            <p>No tasks yet. Add a task to get started!</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                tasksContainer.innerHTML = '';
+                
+                tasks.forEach(task => {
+                    const taskElement = document.createElement('div');
+                    taskElement.className = `task ${task.completed ? 'completed' : ''}`;
+                    
+                    taskElement.innerHTML = `
+                        <input type="checkbox" class="task-checkbox" ${task.completed ? 'checked' : ''}>
+                        <span class="task-text">${task.text}</span>
+                        <div class="task-actions">
+                            <button class="edit-btn"><i class="fas fa-edit"></i></button>
+                            <button class="delete-btn"><i class="fas fa-trash"></i></button>
+                        </div>
+                    `;
+                    
+                    tasksContainer.appendChild(taskElement);
+                    
+                    // Add event listeners to the new task
+                    const checkbox = taskElement.querySelector('.task-checkbox');
+                    const editBtn = taskElement.querySelector('.edit-btn');
+                    const deleteBtn = taskElement.querySelector('.delete-btn');
+                    
+                    checkbox.addEventListener('change', () => toggleTask(task.id));
+                    
+                    editBtn.addEventListener('click', () => editTask(task.id));
+                    
+                    deleteBtn.addEventListener('click', () => deleteTask(task.id));
+                });
+            }
+            
+            function toggleTask(id) {
+                tasks = tasks.map(task => {
+                    if (task.id === id) {
+                        return { ...task, completed: !task.completed };
+                    }
+                    return task;
+                });
+                
+                saveTasks();
+                renderTasks();
+                updateStats();
+            }
+            
+            function editTask(id) {
+                const task = tasks.find(task => task.id === id);
+                const newText = prompt('Edit your task:', task.text);
+                
+                if (newText !== null && newText.trim() !== '') {
+                    tasks = tasks.map(task => {
+                        if (task.id === id) {
+                            return { ...task, text: newText.trim() };
+                        }
+                        return task;
+                    });
+                    
+                    saveTasks();
+                    renderTasks();
+                }
+            }
+            
+            function deleteTask(id) {
+                if (confirm('Are you sure you want to delete this task?')) {
+                    tasks = tasks.filter(task => task.id !== id);
+                    saveTasks();
+                    renderTasks();
+                    updateStats();
+                }
+            }
+            
+            function saveTasks() {
+                localStorage.setItem('tasks', JSON.stringify(tasks));
+            }
+            
+            function updateStats() {
+                const totalTasks = tasks.length;
+                const completedTasks = tasks.filter(task => task.completed).length;
+                
+                totalTasksSpan.textContent = `Total tasks: ${totalTasks}`;
+                completedTasksSpan.textContent = `Completed: ${completedTasks}`;
+            }
+        });
+    </script>
+</body>
+</html>
