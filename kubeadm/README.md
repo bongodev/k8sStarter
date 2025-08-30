@@ -120,9 +120,9 @@ This outlines the steps needed to set up a Kubernetes cluster using `kubeadm`.
     sudo kubeadm reset pre-flight checks
     ```
 
-2. Paste the join command you got from the master node and append `--v=5` at the end:
+2. Paste the join command you got from the master node and append `--cri-socket "unix:///run/containerd/containerd.sock" --v=5` at the end:
     ```bash
-    sudo <kubeadm token> --v=5
+    sudo <copy and paste kubeadm join print from master> --cri-socket "unix:///run/containerd/containerd.sock" --v=5
     ```
 
 ---
