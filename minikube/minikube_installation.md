@@ -63,7 +63,7 @@ sudo chown $USER /var/run/docker.sock
 First, download the Minikube binary using `curl`:
 
 ```bash
-curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64  #download
+curl -LO https://github.com/kubernetes/minikube/releases/latest/download/minikube-linux-amd64  #download
 sudo install minikube-linux-amd64 /usr/local/bin/minikube && rm minikube-linux-amd64 #install Minikube
 ```
 
