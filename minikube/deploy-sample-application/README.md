@@ -49,6 +49,12 @@ Review the deployment configurations and verify the image details
 
     kubectl describe deployments.apps --namespace sample-app   sample-deployment
 
-Once you're finished with the sample application, you can remove the sample namespace, service, and deployment with the following command.
+## Check if nginx is working from terminal:
+	minikube ip #it will return the minikube IP
+
+	curl http://<ip got from minikube ip command>:30080  # i.e. http://192.168.49.5:30080
+
+	You should see html content
+## Once you're finished with the sample application, you can remove the sample namespace, service, and deployment with the following command.
 
     kubectl delete namespace sample-app
