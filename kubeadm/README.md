@@ -101,6 +101,9 @@ This outlines the steps needed to set up a Kubernetes cluster using `kubeadm`.
 
 3. **Install Calico Network Plugin**:
     ```bash
+
+    sudo kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml --validate=false
+OR,
     kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.27.0/manifests/calico.yaml --validate=false
     ```
 
