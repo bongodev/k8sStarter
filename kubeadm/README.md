@@ -89,7 +89,7 @@ This outlines the steps needed to set up a Kubernetes cluster using `kubeadm`.
 
 1. **Initialize the Cluster**:
     ```bash
-    sudo kubeadm init
+    sudo kubeadm init --pod-network-cidr=192.168.0.0/16 #Define the pod network IP range (used by CNI plugin)
     ```
 
 2. **Set Up Local kubeconfig**:
