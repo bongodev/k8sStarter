@@ -1,0 +1,19 @@
+kind: Job
+apiVersion: batch/v1
+metadata:
+  name: test-job
+  namespace: nginx
+spec:
+  completions: 1 # how many times
+  parallelism: 1 # concurrency
+  template:
+    metadata:
+      name: test-job-pod
+      labels:
+        app: batch-task
+    spec:
+      containers:
+      - name: batch-container
+        image: busybox:latest # A container to perform tasks 
+        command: ["sh", "-c" ,"echo Hello Friends Ki obostha! && sleep 10"]
+      restartPolicy: Never # once taks is done, no need to restart
