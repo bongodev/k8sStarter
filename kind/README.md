@@ -10,9 +10,10 @@
 
 ## 1. Installing Docker KIND and kubectl
 Install KIND and kubectl using the provided [script](https://github.com/bongodev/k8sStarter/blob/main/kind/installer.sh):
-
+```bash
   chmod 777 installer.sh
   ./installer.sh
+```
 
 This will Docker KIND and kubectl!
 
