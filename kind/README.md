@@ -21,7 +21,7 @@ This will Docker KIND and kubectl!
 ## 2. Setting Up the KIND Cluster
 Create a cluster:
 
-  kind create cluster --config=kind-config.yaml --name=bongodev-cluster
+  kind create cluster --config=kind-config.yml --name=bongodev-cluster
 
 Verify the cluster:
 ```bash
