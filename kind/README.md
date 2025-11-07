@@ -24,10 +24,10 @@ Create a cluster:
   kind create cluster --config=kind-config.yaml --name=bongodev-cluster
 
 Verify the cluster:
-
+```bash
   kubectl get nodes
   kubectl cluster-info --context kind-bongodev-cluster
-
+```
 ## 3. Accessing the Cluster
 Use kubectl to interact with the cluster:
 
