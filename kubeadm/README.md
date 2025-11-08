@@ -101,10 +101,10 @@ This outlines the steps needed to set up a Kubernetes cluster using `kubeadm`.
     sudo chown "$(id -u)":"$(id -g)" "$HOME"/.kube/config
     ```
 
-3. **Install Calico Network Plugin**:
+3. **Install Calico Network Plugin**: (make sure port 80 is free)
     ```bash
 
-    sudo kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml --validate=false
+    kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml --validate=false
 OR,
     kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.27.0/manifests/calico.yaml --validate=false
     ```
