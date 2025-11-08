@@ -69,6 +69,8 @@ This outlines the steps needed to set up a Kubernetes cluster using `kubeadm`.
 
     sudo systemctl restart containerd
     sudo systemctl status containerd
+    containerd --version
+    
     ```
 
 5. **Install Kubernetes Components**:
