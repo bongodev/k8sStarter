@@ -132,20 +132,33 @@ OR,
 
 ---
 
-## Verify Cluster Connection
-
-**On Master Node:**
-
-```bash
-kubectl get nodes
+## Create pods (on master)
+ ```bash
+    kubectl apply -f namespace.yaml
+    kubectl apply -f deployment.yaml
+    kubectl get pods -n kubernetes-cluster
+    kubectl apply -f services.yaml
+    kubectl get svc -n kubernetes-cluster
 
 ```
-
-   <img src="/images/master.png">
 
 ---
 
 ## Verify Container Status on Worker Node
-<img src="/images/worker.png">
+ ```bash
+    sudo crictl ps -a
+```
+
+## On master add indound rule for port 30080
+
+## Run on the browser
+ ```bash
+    <worker-node-ip>:30080
+```
+
+## Delete, one pod, app is running:
+ ```bash
+kubectl delete pod <pod_id> -n kubernetes-cluster
+ ```
 
 Cheers!
