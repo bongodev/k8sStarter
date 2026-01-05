@@ -137,7 +137,7 @@ OR,
     kubectl apply -f namespace.yaml
     kubectl apply -f deployment.yaml
     kubectl get pods -n kubernetes-cluster
-    kubectl apply -f services.yaml
+    kubectl apply -f service.yaml
     kubectl get svc -n kubernetes-cluster
 
 ```
